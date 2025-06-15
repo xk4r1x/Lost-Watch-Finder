@@ -13,9 +13,10 @@ __pycache__/
 *.pyd
 
 # Virtual environment
-lostwatch-env-311/
+lostwatch-env/
 venv/
 env/
+alerts/
 
 # Test/old output data (app will create fresh)
 facebook_images/
@@ -41,6 +42,9 @@ debug_*.html
 justincase.py
 venv/
 env/
+utils/
+web/utils/
+
 
 # Test/old output data (app will create fresh)
 facebook_images/
