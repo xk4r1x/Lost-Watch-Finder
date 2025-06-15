@@ -6,6 +6,14 @@ __pycache__/
 
 # Virtual environment
 lostwatch-env-311/
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+lostwatch-env-311/
 venv/
 env/
 
@@ -15,6 +23,8 @@ reddit_images/
 output/
 session_data/
 results/
+poshmark_images/
+
 
 # Generated files (app recreates)
 reference_embeddings.pkl
@@ -27,5 +37,30 @@ web/latest_session.txt
 *.tmp
 .DS_Store
 *.backup
-debug_*
+debug_*.html
+justincase.py
+venv/
+env/
+
+# Test/old output data (app will create fresh)
+facebook_images/
+reddit_images/
+output/
+session_data/
+results/
+poshmark_images/
+
+
+# Generated files (app recreates)
+reference_embeddings.pkl
+web/static/results.json
+web/latest_session.txt
+
+# VS Code and temp files
+.vscode/
+*.log
+*.tmp
+.DS_Store
+*.backup
+debug_*.html
 justincase.py
