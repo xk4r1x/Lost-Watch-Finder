@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost Watch Finder - Results</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+        }
+
+        .match-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .match-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .match-card img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .match-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .confidence-badge {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .platform-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .platform-ebay { background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; }
+        .platform-facebook { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+        .platform-poshmark { background: #fef3ff; color: #a855f7; border: 1px solid #e9d5ff; }
+        .platform-craigslist { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+        .platform-reddit { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+        .match-details {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 15px;
+            align-items: start;
+        }
+
+        .match-info p {
+            margin: 8px 0;
+            color: #6c757d;
+        }
+
+        .match-info strong {
+            color: #495057;
+        }
+
+        .price {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #28a745;
+        }
+
+        .view-link {
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        .view-link:hover {
+            background: #5a6268;
+        }
+
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .no-matches {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            background: white;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>🔍 Lost Watch Finder</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="query">Search Query:</label>
+            <input type="text" id="query" name="query"
+                   placeholder="Enter watch brand/model (e.g., 'patek philippe', 'rolex submariner')"
+                   value="{{ query or '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="threshold">Match Threshold (0.0 - 1.0):</label>
+            <input type="number" id="threshold" name="threshold"
+                   step="0.01" min="0" max="1" value="0.60"
+                   placeholder="0.60">
+        </div>
+        <button type="submit" class="btn">🔍 Start Search</button>
+    </form>
+</div>
+
+{% if error %}
+<div class="error">
+    <strong>Error:</strong> {{ error }}
+</div>
+{% endif %}
+
+{% if query %}
+<div class="success">
+    <strong>Search completed for:</strong> "{{ query }}"
+</div>
+
+{% if matches %}
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-number">{{ matches|length }}</div>
+            <div class="stat-label">Total Matches</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ matches|map(attribute='platform')|unique|list|length }}</div>
+            <div class="stat-label">Platforms</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ "%.0f"|format((matches|map(attribute='confidence')|sum / matches|length) * 100) }}%</div>
+            <div class="stat-label">Avg Confidence</div>
+        </div>
+    </div>
+
+    <h2>🎯 Found {{ matches|length }} Potential Matches</h2>
+
+    {% for match in matches %}
+    <div class="match-card">
+        <div class="match-header">
+            <h3 class="match-title">{{ match.get('title', 'Unknown Item') }}</h3>
+            <div class="confidence-badge">{{ "%.1f"|format(match.get('confidence', 0) * 100) }}%</div>
+        </div>
+
+        <div class="match-details">
+            <div class="match-image">
+                <img src="{{ url_for('serve_image', session_id=match.session_id, platform=match.platform, filename=match.filename) }}" alt="{{ match.filename }}">
+                     alt="Match Image"
+                     onerror="this.style.display='none'">
+            </div>
+
+            <div class="match-info">
+                <div class="platform-badge platform-{{ match.get('platform', 'unknown') }}">
+                    {{ match.get('platform', 'Unknown')|title }}
+                </div>
+
+                {% if match.get('price') %}
+                <p class="price"><strong>Price:</strong> {{ match.get('price') }}</p>
+                {% endif %}
+
+                <p><strong>Confidence Score:</strong> {{ "%.2f"|format(match.get('confidence', 0)) }}</p>
+                <p><strong>Platform:</strong> {{ match.get('platform', 'Unknown')|title }}</p>
+
+                {% if match.get('url') %}
+                <a href="{{ match.get('url') }}" target="_blank" class="view-link">
+                    📱 View Original Listing
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="no-matches">
+        <h3>😞 No matches found</h3>
+        <p>Try adjusting your search query or lowering the threshold.</p>
+        <p><strong>Tips:</strong></p>
+        <ul style="text-align: left; display: inline-block;">
+            <li>Use broader terms (e.g., "rolex" instead of "rolex submariner 116610")</li>
+            <li>Lower the threshold to 0.40 or 0.50</li>
+            <li>Check if your reference images are clear and well-lit</li>
+            <li>Try different brand names or model variations</li>
+        </ul>
+    </div>
+{% endif %}
+{% endif %}
+</body>
+</html>
